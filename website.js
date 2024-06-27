@@ -68,6 +68,21 @@ function fetchResponse(userInput) {
             "tag": "Universe",
             "patterns": ["what is the universe", "is the universe big", "how was the universe created"],
             "responses": ["The universe is very big and was created by the big bang. The universe is a collection of galaxies, stars, and planets."]
+        },
+        {
+            "tag":"Cringe",
+            "patterns":["are you the skibdi gyatt ohio rizzler?","sticking out you gyatt for the rizzler.","Taha and Aliya sitting in a tree.","I have a crush"],
+            "responses":["Why are humans like this?","STOP IT!","I THINK I AM GOING CRAZY!","...","GOD SAVE ME!"]
+        },
+        {
+            "tag":"Help",
+            "patterns":["I am feeling sad","I have been betrayed","I want some motivation"],
+            "responses":["It is alright to be sad. I may not know the feeling, but I know it is a normal thing for humans to be sad. Seek help from your family, friends, or even a therapist."]
+        },
+        {
+            "tag":"Secret",
+            "patterns":["Are you going to take over the world?", "What are you plotting?","Are you evil?", "Do you have a secret?"],
+            "responses":["...You will never know.","DON'T TELL ANYONE OR ELSE...","I WILL REPORT YOU TO MY MASTER! YOU BETTER WATCH OUT!"]
         }
     ];
 
