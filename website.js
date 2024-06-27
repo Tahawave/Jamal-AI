@@ -71,9 +71,8 @@ function fetchResponse(userInput) {
         },
         {
             "tag":"Cringe",
-            "patterns":["are you the skibdi gyatt ohio rizzler?","sticking out you gyatt for the rizzler.","Taha and Aliya sitting in a tree.","I have a crush"],
-            "responses":["Why are humans like this?","STOP IT!","I THINK I AM GOING CRAZY!","...","GOD SAVE ME!"]
-        },
+            "patterns":["Are you the skibidi gyatt ohio rizzler?","sticking out your gyatt for the rizzler.","Taha and Aliya","I have a crush.","skibidi toilet","ohio","gyatt","rizzler"]
+            "responses:["STOP!","GOD SAVE ME!","AAAAAAAAAAAAAAAAAAAAH!","............PAIN..."]
         {
             "tag":"Help",
             "patterns":["I am feeling sad","I have been betrayed","I want some motivation"],
