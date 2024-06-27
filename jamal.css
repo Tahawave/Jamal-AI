@@ -4,12 +4,13 @@
             flex-direction: column;
             align-items: center;
             height: 100vh;
-            background-color: #370fd6;
+            background-color: #cf2525;
             margin: 0;
+            color: white;
         }
 
         .chat-container {
-            background-color: #370fd6;
+            background-color: #cf2525;
             width: 400px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -23,6 +24,8 @@
             margin-bottom: 10px;
             padding: 10px;
             border: 1px solid #370fd6;
+            background-color: #cf2525;
+            color: white;
         }
 
         .chat-message {
@@ -33,6 +36,7 @@
 
         .bot-message {
             background-color: #FFC0CB;
+            color: black;
             align-self: flex-start;
         }
 
@@ -67,4 +71,3 @@
             color: white;
             margin-bottom: 20px;
         }
-
