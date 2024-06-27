@@ -63,6 +63,11 @@ function fetchResponse(userInput) {
             "tag": "Family",
             "patterns": ["do you have a family", "are you a part of a family"],
             "responses": ["As an AI model, I don't have a family but my creator does."]
+        },
+        {
+            "tag": "Universe",
+            "patterns": ["what is the universe", "is the universe big", "how was the universe created"],
+            "responses": ["The universe is very big and was created by the big bang. The universe is a collection of galaxies, stars, and planets."]
         }
 
     let response = "Sorry, I don't understand.";
@@ -84,6 +89,4 @@ function fetchResponse(userInput) {
 
     addMessageToChatbox(response, "bot-message");
 }
-
-
 
