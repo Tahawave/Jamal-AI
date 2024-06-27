@@ -1,59 +1,63 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #370fd6;
-    margin: 0;
-}
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #370fd6;
+            margin: 0;
+        }
 
-.chat-container {
-    background-color: #370fd6;
-    width: 400px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-}
+        .chat-container {
+            background-color: #370fd6;
+            width: 400px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
 
-#chatbox {
-    max-height: 400px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #370fd6;
-}
+        #chatbox {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #370fd6;
+        }
 
-.chat-message {
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-}
+        .chat-message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
 
-.bot-message {
-    background-color: #FFC0CB;
-    align-self: flex-start;
-}
+        .bot-message {
+            background-color: #FFC0CB;
+            align-self: flex-start;
+        }
 
-.user-message {
-    background-color: ;
-    align-self: flex-end;
-}
+        .user-message {
+            background-color: ;
+            align-self: flex-end;
+        }
 
-#userInput {
-    width: 75%;
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
+        #userInput {
+            width: 75%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
-#sendButton {
-    padding: 10px 15px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        #sendButton {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .left-align {
+            text-align: left;
+        }
 
