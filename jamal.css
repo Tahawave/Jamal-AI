@@ -4,7 +4,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f9;
+    background-color: #714bd1;
     margin: 0;
 }
 
@@ -21,7 +21,7 @@ body {
     overflow-y: auto;
     margin-bottom: 10px;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #714bd1;
 }
 
 .chat-message {
