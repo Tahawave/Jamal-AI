@@ -31,12 +31,12 @@ body {
 }
 
 .bot-message {
-    background-color: #FFD700;
+    background-color: #FFC0CB;
     align-self: flex-start;
 }
 
 .user-message {
-    background-color: #C0C0C0;
+    background-color: ;
     align-self: flex-end;
 }
 
