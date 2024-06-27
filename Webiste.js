@@ -7,6 +7,12 @@ document.getElementById("sendButton").addEventListener("click", function() {
     }
 });
 
+document.getElementById("userInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        document.getElementById("sendButton").click();
+    }
+});
+
 function addMessageToChatbox(message, className) {
     const chatbox = document.getElementById("chatbox");
     const messageDiv = document.createElement("div");
@@ -17,27 +23,67 @@ function addMessageToChatbox(message, className) {
 }
 
 function fetchResponse(userInput) {
-    // Simulate a response from the chatbot based on predefined intents
-    const intents = {
-        "Greetings": ["Hello!", "Hey!", "What can I do for you?"],
-        "Goodbye": ["See you soon.", "Bye!", "Have a good day!", "Sad to see you go."],
-        "Age": ["As an AI model, I don't have an age. Ask me something else."],
-        "Name": ["You can call me Jamal.", "Call me Jamal", "My name is Jamal"],
-        "Comic Books": ["It is in the workings, but yes he does!"],
-        "Favorite color": ["My favorite color is red and blue."],
-        "Color": ["There are many colors.", "Brown, black, blue, orange are a select few colors.", "Red, blue, green, and yellow are some colors.", "There are millions of colors!"],
-        "Family": ["As an AI model, I don't have a family but my creator does."],
-        "Universe": ["The universe is very big and was created by the big bang. The universe is a collection of galaxies, stars, and planets."],
+    const intents = [
+        {
+            "tag": "Greetings",
+            "patterns": ["hello", "hey", "hi", "good day", "greetings", "what's up", "how is it going"],
+            "responses": ["Hello!", "Hey!", "What can I do for you?"]
+        },
+        {
+            "tag": "Goodbye",
+            "patterns": ["goodbye", "cya", "see you later", "goodnight", "see you tomorrow", "bye", "ciao", "see ya"],
+            "responses": ["See you soon.", "Bye!", "Have a good day!", "Sad to see you go."]
+        },
+        {
+            "tag": "Age",
+            "patterns": ["how old are you", "what is your age", "age"],
+            "responses": ["As an AI model, I don't have an age. Ask me something else."]
+        },
+        {
+            "tag": "Name",
+            "patterns": ["what is your name", "do you have a name", "what should I call you", "can you tell me your name"],
+            "responses": ["You can call me Jamal.", "Call me Jamal", "My name is Jamal"]
+        },
+        {
+            "tag": "Comic Books",
+            "patterns": ["have you made a book", "does your creator have a book series"],
+            "responses": ["It is in the workings, but yes he does!"]
+        },
+        {
+            "tag": "Favorite color",
+            "patterns": ["what is your favorite color", "do you have a favorite color"],
+            "responses": ["My favorite color is red and blue."]
+        },
+        {
+            "tag": "Color",
+            "patterns": ["how many colors are there", "list me some colors"],
+            "responses": ["There are many colors.", "Brown, black, blue, orange are a select few colors.", "Red, blue, green, and yellow are some colors.", "There are millions of colors!"]
+        },
+        {
+            "tag": "Family",
+            "patterns": ["do you have a family", "are you a part of a family"],
+            "responses": ["As an AI model, I don't have a family but my creator does."]
+        }
 
     let response = "Sorry, I don't understand.";
-    for (let intent in intents) {
-        if (new RegExp(intent, "i").test(userInput)) {
-            response = intents[intent][Math.floor(Math.random() * intents[intent].length)];
+
+    for (let i = 0; i < intents.length; i++) {
+        const intent = intents[i];
+        for (let j = 0; j < intent.patterns.length; j++) {
+            const pattern = intent.patterns[j];
+            const regex = new RegExp("\\b" + pattern + "\\b", "i");
+            if (regex.test(userInput)) {
+                response = intent.responses[Math.floor(Math.random() * intent.responses.length)];
+                break;
+            }
+        }
+        if (response !== "Sorry, I don't understand.") {
             break;
         }
     }
 
     addMessageToChatbox(response, "bot-message");
 }
+
 
 
