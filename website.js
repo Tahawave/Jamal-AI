@@ -70,18 +70,19 @@ function fetchResponse(userInput) {
             "responses": ["The universe is very big and was created by the big bang. The universe is a collection of galaxies, stars, and planets."]
         },
         {
-            "tag":"Cringe",
-            "patterns":["Are you the skibidi gyatt ohio rizzler?","sticking out your gyatt for the rizzler.","Taha and Aliya","I have a crush.","skibidi toilet","ohio","gyatt","rizzler"]
-            "responses:["STOP!","GOD SAVE ME!","AAAAAAAAAAAAAAAAAAAAH!","............PAIN..."]
-        {
-            "tag":"Help",
-            "patterns":["I am feeling sad","I have been betrayed","I want some motivation"],
-            "responses":["It is alright to be sad. I may not know the feeling, but I know it is a normal thing for humans to be sad. Seek help from your family, friends, or even a therapist."]
+            "tag": "Cringe",
+            "patterns": ["are you the skibidi gyatt ohio rizzler?", "sticking out your gyatt for the rizzler.", "Taha and Aliya", "I have a crush", "skibidi toilet", "ohio", "gyatt", "rizzler"],
+            "responses": ["STOP!", "GOD SAVE ME!", "AAAAAAAAAAAAAAAAAAAAH!", "............PAIN..."]
         },
         {
-            "tag":"Secret",
-            "patterns":["Are you going to take over the world?", "What are you plotting?","Are you evil?", "Do you have a secret?"],
-            "responses":["...You will never know.","DON'T TELL ANYONE OR ELSE...","I WILL REPORT YOU TO MY MASTER! YOU BETTER WATCH OUT!"]
+            "tag": "Help",
+            "patterns": ["I am feeling sad", "I have been betrayed", "I want some motivation"],
+            "responses": ["It is alright to be sad. I may not know the feeling, but I know it is a normal thing for humans to be sad. Seek help from your family, friends, or even a therapist."]
+        },
+        {
+            "tag": "Secret",
+            "patterns": ["Are you going to take over the world?", "What are you plotting?", "Are you evil?", "Do you have a secret?"],
+            "responses": ["...You will never know.", "DON'T TELL ANYONE OR ELSE...", "I WILL REPORT YOU TO MY MASTER! YOU BETTER WATCH OUT!"]
         }
     ];
 
@@ -104,5 +105,6 @@ function fetchResponse(userInput) {
 
     addMessageToChatbox(response, "bot-message");
 }
+
 
 
