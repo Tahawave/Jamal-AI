@@ -81,30 +81,8 @@ function fetchResponse(userInput) {
         },
         {
             "tag": "Secret",
-            "patterns": ["Are you going to take over the world?", "What are you plotting?", "Are you evil?", "Do you have a secret?"],
-            "responses": ["...You will never know.", "DON'T TELL ANYONE OR ELSE...", "I WILL REPORT YOU TO MY MASTER! YOU BETTER WATCH OUT!"]
-        }
-    ];
+            "patterns": [
 
-    let response = "Sorry, I don't understand.";
-
-    for (let i = 0; i < intents.length; i++) {
-        const intent = intents[i];
-        for (let j = 0; j < intent.patterns.length; j++) {
-            const pattern = intent.patterns[j];
-            const regex = new RegExp("\\b" + pattern + "\\b", "i");
-            if (regex.test(userInput)) {
-                response = intent.responses[Math.floor(Math.random() * intent.responses.length)];
-                break;
-            }
-        }
-        if (response !== "Sorry, I don't understand.") {
-            break;
-        }
-    }
-
-    addMessageToChatbox(response, "bot-message");
-}
 
 
 
