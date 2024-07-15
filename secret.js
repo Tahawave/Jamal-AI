@@ -8,13 +8,14 @@ const TABLE_HEIGHT = 600;
 const PLAYER_WIDTH = 20;
 const PLAYER_HEIGHT = 100;
 const BALL_RADIUS = 10;
-const PLAYER_SPEED = 8;
+const PLAYER_SPEED = 6;
 const BALL_SPEED = 5;
 const SCORE_LIMIT = 5;
 const ROUND_LIMIT = 25;
 
 // Players
 let player = {
+    name: 'Jamal',
     x: 50,
     y: TABLE_HEIGHT / 2 - PLAYER_HEIGHT / 2,
     width: PLAYER_WIDTH,
@@ -23,6 +24,7 @@ let player = {
 };
 
 let opponent = {
+    name: 'Jimmy',
     x: TABLE_WIDTH - 50 - PLAYER_WIDTH,
     y: TABLE_HEIGHT / 2 - PLAYER_HEIGHT / 2,
     width: PLAYER_WIDTH,
@@ -67,15 +69,15 @@ function gameLoop() {
 
 // Update game objects
 function update() {
-    movePlayer();
-    moveOpponent();
+    movePlayer(player);
+    moveOpponent(opponent);
     moveBall();
     checkCollision();
     checkScore();
 }
 
 // Move player based on key presses
-function movePlayer() {
+function movePlayer(player) {
     if (keys[38] && player.y > 0) { // Up arrow
         player.y -= PLAYER_SPEED;
     }
@@ -85,7 +87,7 @@ function movePlayer() {
 }
 
 // Basic AI movement for opponent
-function moveOpponent() {
+function moveOpponent(opponent) {
     // AI logic to follow the ball
     if (ball.y < opponent.y + opponent.height / 2) {
         opponent.y -= PLAYER_SPEED;
@@ -156,17 +158,24 @@ function updateScoreboard() {
     document.getElementById('playerScore').textContent = player.score;
     document.getElementById('opponentScore').textContent = opponent.score;
     document.getElementById('roundCount').textContent = roundCount;
+    document.getElementById('roundWinner').textContent = roundWinner;
 }
 
 // Declare winner of the round
 function declareRoundWinner() {
-    roundWinner = player.score > opponent.score ? 'Player' : 'Opponent';
-    document.getElementById('roundWinner').textContent = roundWinner;
+    roundWinner = player.score > opponent.score ? player.name : opponent.name;
 }
 
 // Declare winner of the game
 function declareGameWinner() {
-    let winner = player.score > opponent.score ? 'Player' : 'Opponent';
+    let winner = '';
+    if (player.score > opponent.score) {
+        winner = player.name;
+    } else if (opponent.score > player.score) {
+        winner = opponent.name;
+    } else {
+        winner = 'Tie';
+    }
     alert(`Game Over!\n${winner} wins the game!`);
 }
 
