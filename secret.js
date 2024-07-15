@@ -1,118 +1,209 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import * as CANNON from 'cannon-es';
+// Game setup
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 
+// Constants
+const TABLE_WIDTH = 800;
+const TABLE_HEIGHT = 600;
+const PLAYER_WIDTH = 20;
+const PLAYER_HEIGHT = 100;
+const BALL_RADIUS = 10;
+const PLAYER_SPEED = 8;
+const BALL_SPEED = 5;
+const SCORE_LIMIT = 5;
+const ROUND_LIMIT = 25;
 
-        import { OrbitControls } from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/jsm/controls/OrbitControls.js';
-        import { GLTFLoader } from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/jsm/loaders/GLTFLoader.js';
+// Players
+let player = {
+    x: 50,
+    y: TABLE_HEIGHT / 2 - PLAYER_HEIGHT / 2,
+    width: PLAYER_WIDTH,
+    height: PLAYER_HEIGHT,
+    score: 0
+};
 
-        let scene, camera, renderer, controls;
-        let table, ball, player1, player2;
-        let ballBody, player1Body, player2Body, world;
+let opponent = {
+    x: TABLE_WIDTH - 50 - PLAYER_WIDTH,
+    y: TABLE_HEIGHT / 2 - PLAYER_HEIGHT / 2,
+    width: PLAYER_WIDTH,
+    height: PLAYER_HEIGHT,
+    score: 0
+};
 
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 5, 10);
+// Ball
+let ball = {
+    x: TABLE_WIDTH / 2,
+    y: TABLE_HEIGHT / 2,
+    dx: Math.random() < 0.5 ? -BALL_SPEED : BALL_SPEED,
+    dy: Math.random() < 0.5 ? -BALL_SPEED : BALL_SPEED,
+    radius: BALL_RADIUS
+};
 
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
+// Round management
+let roundCount = 0;
+let roundWinner = '';
 
-            controls = new OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.25;
-            controls.enableZoom = true;
+// Key state
+let keys = {};
 
-            const ambientLight = new THREE.AmbientLight(0x404040);
-            scene.add(ambientLight);
+// Event listeners
+document.addEventListener('keydown', keyDownHandler);
+document.addEventListener('keyup', keyUpHandler);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-            directionalLight.position.set(0, 10, 10).normalize();
-            scene.add(directionalLight);
+function keyDownHandler(event) {
+    keys[event.keyCode] = true;
+}
 
-            const tableGeometry = new THREE.BoxGeometry(10, 0.2, 5);
-            const tableMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-            table = new THREE.Mesh(tableGeometry, tableMaterial);
-            scene.add(table);
+function keyUpHandler(event) {
+    keys[event.keyCode] = false;
+}
 
-            const ballGeometry = new THREE.SphereGeometry(0.2, 32, 32);
-            const ballMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
-            ball = new THREE.Mesh(ballGeometry, ballMaterial);
-            scene.add(ball);
+// Game loop
+function gameLoop() {
+    update();
+    draw();
+    requestAnimationFrame(gameLoop);
+}
 
-            const loader = new GLTFLoader();
-            loader.load('path/to/player_model.glb', function (gltf) {
-                player1 = gltf.scene;
-                player1.scale.set(0.5, 0.5, 0.5);
-                scene.add(player1);
+// Update game objects
+function update() {
+    movePlayer();
+    moveOpponent();
+    moveBall();
+    checkCollision();
+    checkScore();
+}
 
-                player2 = gltf.scene.clone();
-                player2.scale.set(0.5, 0.5, 0.5);
-                scene.add(player2);
+// Move player based on key presses
+function movePlayer() {
+    if (keys[38] && player.y > 0) { // Up arrow
+        player.y -= PLAYER_SPEED;
+    }
+    if (keys[40] && player.y < TABLE_HEIGHT - player.height) { // Down arrow
+        player.y += PLAYER_SPEED;
+    }
+}
 
-                animate();
-            });
+// Basic AI movement for opponent
+function moveOpponent() {
+    // AI logic to follow the ball
+    if (ball.y < opponent.y + opponent.height / 2) {
+        opponent.y -= PLAYER_SPEED;
+    } else if (ball.y > opponent.y + opponent.height / 2) {
+        opponent.y += PLAYER_SPEED;
+    }
+}
 
-            world = new CANNON.World();
-            world.gravity.set(0, -9.82, 0);
+// Move ball and handle collisions with walls and players
+function moveBall() {
+    ball.x += ball.dx;
+    ball.y += ball.dy;
 
-            const tableShape = new CANNON.Box(new CANNON.Vec3(5, 0.1, 2.5));
-            const tableBody = new CANNON.Body({ mass: 0 });
-            tableBody.addShape(tableShape);
-            world.addBody(tableBody);
+    // Collision with top and bottom walls
+    if (ball.y + ball.radius > TABLE_HEIGHT || ball.y - ball.radius < 0) {
+        ball.dy = -ball.dy;
+    }
 
-            const ballShape = new CANNON.Sphere(0.2);
-            ballBody = new CANNON.Body({ mass: 1 });
-            ballBody.addShape(ballShape);
-            world.addBody(ballBody);
+    // Collision with player and opponent paddles
+    if (ball.x - ball.radius < player.x + player.width &&
+        ball.y > player.y &&
+        ball.y < player.y + player.height) {
+        ball.dx = -ball.dx;
+    }
 
-            const playerShape = new CANNON.Box(new CANNON.Vec3(0.5, 1, 0.5));
-            player1Body = new CANNON.Body({ mass: 0 });
-            player1Body.addShape(playerShape);
-            world.addBody(player1Body);
+    if (ball.x + ball.radius > opponent.x &&
+        ball.y > opponent.y &&
+        ball.y < opponent.y + opponent.height) {
+        ball.dx = -ball.dx;
+    }
 
-            player2Body = new CANNON.Body({ mass: 0 });
-            player2Body.addShape(playerShape);
-            world.addBody(player2Body);
+    // Scoring
+    if (ball.x - ball.radius < 0) {
+        opponent.score++;
+        resetBall();
+    } else if (ball.x + ball.radius > TABLE_WIDTH) {
+        player.score++;
+        resetBall();
+    }
+}
 
-            ballBody.position.set(0, 0.5, 0);
-            player1Body.position.set(-4.5, 1, 0);
-            player2Body.position.set(4.5, 1, 0);
+// Reset ball position to center
+function resetBall() {
+    ball.x = TABLE_WIDTH / 2;
+    ball.y = TABLE_HEIGHT / 2;
+    ball.dx = Math.random() < 0.5 ? -BALL_SPEED : BALL_SPEED;
+    ball.dy = Math.random() < 0.5 ? -BALL_SPEED : BALL_SPEED;
 
-            animate();
-        }
+    roundCount++;
+    updateScoreboard();
 
-        function animate() {
-            requestAnimationFrame(animate);
-            world.step(1 / 60);
+    if (roundCount >= ROUND_LIMIT) {
+        declareRoundWinner();
+        resetGame();
+    }
+}
 
-            ball.position.copy(ballBody.position);
-            player1.position.copy(player1Body.position);
-            player2.position.copy(player2Body.position);
+// Check if score limit is reached
+function checkScore() {
+    if (player.score >= SCORE_LIMIT || opponent.score >= SCORE_LIMIT) {
+        declareGameWinner();
+        resetGame();
+    }
+}
 
-            moveAI(player1Body, ballBody);
-            moveAI(player2Body, ballBody);
+// Update scoreboard
+function updateScoreboard() {
+    document.getElementById('playerScore').textContent = player.score;
+    document.getElementById('opponentScore').textContent = opponent.score;
+    document.getElementById('roundCount').textContent = roundCount;
+}
 
-            controls.update();
-            renderer.render(scene, camera);
-        }
+// Declare winner of the round
+function declareRoundWinner() {
+    roundWinner = player.score > opponent.score ? 'Player' : 'Opponent';
+    document.getElementById('roundWinner').textContent = roundWinner;
+}
 
-        function moveAI(playerBody, ballBody) {
-            const mistakeProbability = 0.1;
+// Declare winner of the game
+function declareGameWinner() {
+    let winner = player.score > opponent.score ? 'Player' : 'Opponent';
+    alert(`Game Over!\n${winner} wins the game!`);
+}
 
-            if (Math.random() > mistakeProbability) {
-                if (playerBody.position.z < ballBody.position.z) {
-                    playerBody.position.z += 0.05;
-                } else if (playerBody.position.z > ballBody.position.z) {
-                    playerBody.position.z -= 0.05;
-                }
-            }
-        }
+// Reset game state
+function resetGame() {
+    player.score = 0;
+    opponent.score = 0;
+    roundCount = 0;
+    roundWinner = '';
+    updateScoreboard();
+}
 
-        init();
-    </script>
-</body>
-</html>
+// Check collision and update ball direction
+function checkCollision() {
+    // Ball collision logic
+}
+
+// Draw game objects
+function draw() {
+    ctx.clearRect(0, 0, TABLE_WIDTH, TABLE_HEIGHT);
+
+    // Draw players
+    ctx.fillStyle = '#000';
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+    ctx.fillRect(opponent.x, opponent.y, opponent.width, opponent.height);
+
+    // Draw ball
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+    ctx.fillStyle = '#000';
+    ctx.fill();
+
+    // Draw scoreboard
+    updateScoreboard();
+}
+
+// Start the game loop
+gameLoop();
+
 
