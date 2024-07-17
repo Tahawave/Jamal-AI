@@ -87,7 +87,7 @@ function fetchResponse(userInput) {
         {
             "tag":"Who",
             "patterns":["Who are you?","What are you?"]
-            "responses":["I am JamalAI, an AI that is compleetely harmless and won't do anything harmful to the human race....*mutters* for now..."]
+            "responses":["I am JamalAI, an AI that is completely harmless and won't do anything harmful to the human race....*mutters* for now..."]
     ];
 
     let response = "Sorry, I don't understand.";
