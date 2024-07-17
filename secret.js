@@ -1,5 +1,5 @@
-// Setup Three.js scene here
 let scene, camera, renderer;
+let robot;
 
 function init() {
     scene = new THREE.Scene();
@@ -7,11 +7,19 @@ function init() {
     renderer = new THREE.WebGLRenderer({canvas: document.getElementById('canvas'), antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    // Example: Add a cube to represent Optimus Prime
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    // Add light to the scene
+    const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+    scene.add(light);
+
+    // Add camera controls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.update();
+
+    // Create a basic humanoid robot model
+    const geometry = new THREE.BoxGeometry(1, 2, 0.5);
+    const material = new THREE.MeshPhongMaterial({ color: 0x2194ce });
+    robot = new THREE.Mesh(geometry, material);
+    scene.add(robot);
 
     camera.position.z = 5;
 
@@ -21,16 +29,14 @@ function init() {
 function animate() {
     requestAnimationFrame(animate);
     
-    // Example: Add animation logic (rotate cube)
-    scene.children.forEach(child => {
-        if (child instanceof THREE.Mesh) {
-            child.rotation.x += 0.01;
-            child.rotation.y += 0.01;
-        }
-    });
+    // Example: Rotate the robot
+    if (robot) {
+        robot.rotation.y += 0.01;
+    }
 
     renderer.render(scene, camera);
 }
 
 init();
+
 
